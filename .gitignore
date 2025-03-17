@@ -1,0 +1,25 @@
+#gitignore per avere SOLO il SOURCECODE
+Binaries
+DerivedDataCache
+Intermediate
+Saved
+Build
+Content
+**/BlackAlder
+**/Landscape
+**/MedievalDungeon
+**/Megascans
+**/StarterContent
+**/Assets
+
+
+.vscode
+.vs
+*.VC.db
+*.opensdf
+*.opendb
+*.sdf
+*.sln
+*.suo
+*.xcodeproj
+*.xcworkspace
