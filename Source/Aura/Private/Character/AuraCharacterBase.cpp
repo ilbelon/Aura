@@ -1,7 +1,7 @@
 // Copyright Montebabbit Interactive 
 
 
-#include "AuraCharacterBase.h"
+#include "Character/AuraCharacterBase.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
