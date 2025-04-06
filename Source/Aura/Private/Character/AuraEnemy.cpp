@@ -3,6 +3,8 @@
 
 #include "Character/AuraEnemy.h"
 #include "Aura/Aura.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 
 void AAuraEnemy::HighlightActor()
 {
@@ -37,4 +39,9 @@ AAuraEnemy::AAuraEnemy()
 	{
 		Weapon->SetCustomDepthStencilValue(CUSTOM__DEPTH_RED);
 	}
+
+	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
