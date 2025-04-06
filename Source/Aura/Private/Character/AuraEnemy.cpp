@@ -8,9 +8,6 @@
 
 void AAuraEnemy::HighlightActor()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("HighlightActor BeingCalled"));
-	//DrawDebugSphere(GetWorld(), GetActorLocation(), 23.f, 24, FColor::Emerald, false);
-	bHighligth = true;
 	GetMesh()->SetRenderCustomDepth(true);
 	//GetMesh()->SetCustomDepthStencilValue(250);
 	if (Weapon)
@@ -21,8 +18,6 @@ void AAuraEnemy::HighlightActor()
 
 void AAuraEnemy::UnHighlightActor()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("UnHighlightActor BeingCalled"));
-	bHighligth = false;
 	GetMesh()->SetRenderCustomDepth(false);
 	if (Weapon) 
 	{
@@ -42,6 +37,13 @@ AAuraEnemy::AAuraEnemy()
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
 	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+}
+
+void AAuraEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
