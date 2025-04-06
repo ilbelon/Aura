@@ -18,4 +18,8 @@ AAuraCharacter::AAuraCharacter()
 
 void AAuraCharacter::BeginPlay()
 {
+	Super::BeginPlay();
+	if (this->GetPlayerState()) {
+
+	}
 }

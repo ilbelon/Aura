@@ -6,26 +6,6 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 
-void AAuraEnemy::HighlightActor()
-{
-	GetMesh()->SetRenderCustomDepth(true);
-	//GetMesh()->SetCustomDepthStencilValue(250);
-	if (Weapon)
-	{
-		Weapon->SetRenderCustomDepth(true);
-	}
-}
-
-void AAuraEnemy::UnHighlightActor()
-{
-	GetMesh()->SetRenderCustomDepth(false);
-	if (Weapon) 
-	{
-		Weapon->SetRenderCustomDepth(false);
-	}
-	
-}
-
 AAuraEnemy::AAuraEnemy()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
@@ -47,3 +27,27 @@ void AAuraEnemy::BeginPlay()
 	Super::BeginPlay();
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
+
+//** Enemy Interface */
+void AAuraEnemy::HighlightActor()
+{
+	GetMesh()->SetRenderCustomDepth(true);
+	if (Weapon)
+	{
+		Weapon->SetRenderCustomDepth(true);
+	}
+}
+
+void AAuraEnemy::UnHighlightActor()
+{
+	GetMesh()->SetRenderCustomDepth(false);
+	if (Weapon) 
+	{
+		Weapon->SetRenderCustomDepth(false);
+	}
+	
+}
+//** End Enemy Interface */
+
+
+
