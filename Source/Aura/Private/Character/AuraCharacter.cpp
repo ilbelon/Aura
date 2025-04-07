@@ -35,6 +35,7 @@ void AAuraCharacter::OnRep_PlayerState()
 void AAuraCharacter::InitializeAbilitySystemComponentAndAttributeSet()
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	//if(!AuraPlayerState) return;//
 	check(AuraPlayerState);
 	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
