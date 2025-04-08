@@ -3,6 +3,9 @@
 
 #include "Actor/AuraEffectActor.h"
 #include "Components/SphereComponent.h"
+#include "AbilitySystemComponent.h"
+#include "AbilitySystemInterface.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 
 // Sets default values
 AAuraEffectActor::AAuraEffectActor()
@@ -20,6 +23,17 @@ AAuraEffectActor::AAuraEffectActor()
 
 void AAuraEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	//TODO: Change this to apply a Gameplay Effect. For now, using const_cast as a hack!
+	if (IAbilitySystemInterface* ASCInterface = Cast<IAbilitySystemInterface>(OtherActor))
+	{
+		const UAuraAttributeSet* AuraAttributeSet = Cast<UAuraAttributeSet>(ASCInterface->GetAbilitySystemComponent()->GetAttributeSet(UAuraAttributeSet::StaticClass()));
+		//la funzione sopra ritorna un const, per aggirare il problema si può castare il const in un'altro puntatore
+		//NON E' BUONA PRATICA farlo, ma così ho un esempio di come fare
+		UAuraAttributeSet* MutableAuraAttributeSet = const_cast<UAuraAttributeSet*>(AuraAttributeSet);
+		MutableAuraAttributeSet->SetHealth(AuraAttributeSet->GetHealth() + 25.f);
+		Destroy();
+	}
+
 }
 
 void AAuraEffectActor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
