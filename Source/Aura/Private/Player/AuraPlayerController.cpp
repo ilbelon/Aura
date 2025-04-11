@@ -25,8 +25,11 @@ void AAuraPlayerController::BeginPlay()
 
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem< UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 
-	check(Subsystem);
-	Subsystem->AddMappingContext(AuraContext, 0);
+	//check(Subsystem); Prima c'era il check, ma nel caso del multyplayer potrebbe essere chiamato sugli altri character
+	//facendo crashare il gioco per cui per evitare che succeda invece del check è sufficiente usare un if
+	if (Subsystem) {
+		Subsystem->AddMappingContext(AuraContext, 0);
+	}
 
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
