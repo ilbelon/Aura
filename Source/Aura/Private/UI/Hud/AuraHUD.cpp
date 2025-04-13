@@ -26,7 +26,7 @@ UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetCont
 	else {
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParams(WCParams);
-
+		OverlayWidgetController->BindCallBacksToDependencies();//<-- manca sopra perché agiunto in un video successivo
 		return OverlayWidgetController;
 	}
 	
@@ -46,6 +46,7 @@ void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyst
 
 	OverlayWidget->SetWidgetController(WidgetController);
 	WidgetController->BroadCastInitialValue();
+	//WidgetController->BindCallBacksToDependencies(); <--La mia prima idea, ma stephen suggerisce di metterlo nel get appena il widget controller viene costruito
 
 	OverlayWidget->AddToViewport();
 

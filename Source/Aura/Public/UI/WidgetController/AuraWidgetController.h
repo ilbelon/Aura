@@ -45,6 +45,8 @@ public:
 
     virtual void BroadCastInitialValue();
 
+    virtual void BindCallBacksToDependencies();
+
 protected:
 
     UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
