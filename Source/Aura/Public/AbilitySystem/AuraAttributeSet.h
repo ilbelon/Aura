@@ -25,6 +25,8 @@ public:
 	UAuraAttributeSet();
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	//Fa qualcosa prima che i valori vengano modificati da un gameplay effect. Usato per fare il clamping
+	//di vitra e mana, ma ha già spiegato che ci sono metodi migliori per ottenere lo stesso risultato
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 
 	//Replicated sta a dire che deve essere replicata per la rete, ReplicatedUsing serve a definire quale funzione usa per notificare la replica
