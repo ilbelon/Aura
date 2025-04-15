@@ -30,7 +30,15 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
     //in molti template/video spessp il puntatore a FGameplayEffectSpecHandle + chiamato solo EffectSpec per brevità
     //essendo un wrapper in realtà è un wrapper di un GameplayEffectSpec
     const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
-    TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+    const FActiveGameplayEffectHandle ActiveGameplayEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+
+    const bool bIsInfinite = EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::Infinite;
+
+    if (bIsInfinite && InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap)
+    {
+        ActiveGameplayEffectHandles.Add(ActiveGameplayEffectHandle, TargetASC);
+    }
+
 }
 
 void AAuraEffectActor::OnOverlap(AActor* TargetActor)
@@ -44,6 +52,16 @@ void AAuraEffectActor::OnOverlap(AActor* TargetActor)
     {
         ApplyEffectToTarget(TargetActor, HasDurationGameplayEffectClass);
     }
+
+    if (InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
+    {
+        ApplyEffectToTarget(TargetActor, InfiniteGameplayEffectClass);
+    }
+
+    if (bDestroyOnEffectRemoval) {
+        Destroy();
+    }
+
 }
 
 void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
@@ -52,8 +70,31 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
     {
         ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
     }
+    
     if (HasDurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
     {
         ApplyEffectToTarget(TargetActor, HasDurationGameplayEffectClass);
+    }
+
+    if (InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap)
+    {
+        UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+        if (!IsValid(TargetASC)) return;
+        
+        TArray<FActiveGameplayEffectHandle> HandlesToRemove;
+
+        for (TTuple<FActiveGameplayEffectHandle, UAbilitySystemComponent*> HandlePair : ActiveGameplayEffectHandles)
+        {
+            if (TargetASC == HandlePair.Value)
+            {
+                TargetASC->RemoveActiveGameplayEffect(HandlePair.Key, 1);
+                HandlesToRemove.Add(HandlePair.Key);
+            }
+        }
+
+        for (FActiveGameplayEffectHandle& Handle : HandlesToRemove)
+        {
+            ActiveGameplayEffectHandles.FindAndRemoveChecked(Handle);
+        }
     }
 }
