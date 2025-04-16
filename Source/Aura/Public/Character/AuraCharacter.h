@@ -22,6 +22,6 @@ public:
 
 private:
 	//nel corso la chiama InitAbilityActorInfo
-	void InitializeAbilitySystemComponentAndAttributeSet();
+	virtual void InitializeAbilitySystemComponentAndAttributeSet() override;
 
 };

@@ -26,6 +26,13 @@ void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	InitializeAbilitySystemComponentAndAttributeSet();
+}
+
+void AAuraEnemy::InitializeAbilitySystemComponentAndAttributeSet()
+{
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 }
 
 //** Enemy Interface */
