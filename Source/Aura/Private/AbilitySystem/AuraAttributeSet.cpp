@@ -5,6 +5,7 @@
 #include "Net/UnrealNetwork.h"
 #include "GameplayEffectExtension.h"
 //#include "AbilitySystemBlueprintLibrary.h" //NOTA PER ANDREA DEL FUTURO serve solo per soluzione originale lasciata come riferimento
+#include "GameFramework/Character.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
