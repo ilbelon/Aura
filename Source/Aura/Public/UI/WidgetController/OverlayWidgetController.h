@@ -71,4 +71,14 @@ protected:
 	void ManaChanged(const FOnAttributeChangeData& Data) const;
 	void MaxManaChanged(const FOnAttributeChangeData& Data) const;
 
+	template<typename T>
+	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
+
 };
+
+template<typename T>
+inline T* UOverlayWidgetController::GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag)
+{
+	//il TEXT è perchè la funzione richiede una context string e al momento va bene lasciata così
+	return DataTable->FindRow<T>(Tag.GetTagName(), TEXT(""));
+}
